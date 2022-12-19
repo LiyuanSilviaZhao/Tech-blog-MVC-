@@ -1,16 +1,19 @@
-<div class="box-container">
+<div class="login-box box-container">
 <h2>Signup</h2>
 <form action="" id="signup">
     <section>
     <label for="signupUsername">Username</label>
-    <input type="text" name="signupUsername" id="signupUsername"/>
+    <input type="text" name="signupUsername" id="signupUsername" required/>
     </section>
     <section>
-    <label for="signupPassword">Password</label>
-    <input type="password" name="signupPassword" id="signupPassword" placeholder="signupPassword">
+    <label for="signupPassword">Password (minimum 8 letters)</label>
+    <input type="password" name="signupPassword" id="signupPassword"  required/>
     </section>
-    <button>Signup</button>
+    <div class="buttons">
+    <button>Signup!</button>
+    </div>
+    <a href="/login">Log in instead</a>
 </form>
-<a href="/login">Login</a>
+
 </div>
 <script src="/js/signup.js"></script>

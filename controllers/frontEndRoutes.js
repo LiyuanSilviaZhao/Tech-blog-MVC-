@@ -11,7 +11,14 @@ router.get("/",(req,res)=>{
         include:[{
             model:User,
             attributes:['username'],
-        }],
+        }
+    ,{
+        model:Comment,
+        attributes:['id'],
+    }],
+    order: [
+      ['createdAt', 'DESC'],
+    ],
 
     }).then(allpost=>{
         const postsHbsData = allpost.map(post=>post.get({plain:true}))
@@ -97,6 +104,7 @@ router.get('/post/:id', async (req, res) => {
       postHbsData.logged_in=req.session.logged_in;
       postHbsData.username=req.session.username;
       postHbsData.Comments.map(cmt=>cmt.date = moment(cmt.createdAt).format('MM/DD/YYYY'));
+      postHbsData.Comments.map(cmt=>cmt.myComment = ( cmt.UserId == req.session.user_id ? true : false));
 
       res.render('post', postHbsData);
     } catch (err) {

@@ -4,31 +4,47 @@
         <h3>{{title}}</h3>
         <span>Posted by {{User.username}} on {{date}}</span>
     </div>
-        <p>{{content}}</p>
+    <p>{{content}}</p>
 </article>
+
+
 
 <section class="view-cmts">
     <h4>Comments:</h4>
     {{#each Comments}}
-    <div>
+    <div class="cmt">
         <p>{{content}}</p>
-        <span>-- {{User.username}} , {{date}}</span>
+        <span>
+            {{#if myComment}}
+            <a href="##" class="cmt-upd-btn" data-cmtid="{{id}}">Update</a>
+            <a href="##" class="cmt-del-btn" data-cmtid="{{id}}">Delete</a>
+            {{/if}}    
+            {{User.username}}, {{date}}
+        </span>
+
+        {{#if myComment}}
+        <form id="update-cmt-form-{{id}}" data-cmtid="{{id}}" class="cmt-update-form" style="display:none;">
+            <input type="text" id="update-comment-{{id}}" value="{{content}}" />
+            <button>Update</button>
+        </form>
+        {{/if}} 
+
     </div>
     {{/each}}
+
+    <div class="create-cmt">
+        {{#if logged_in}}
+        <form id="create-cmt" data-postid="{{id}}">
+            <label for="new-comment">Add a comment:</label>
+            <input type="text" id="new-comment"/>
+            <button>Submit</button>
+        </form>
+        <script src="/js/create-cmt.js"></script>
+        {{else}}
+        <p>Please log in to add a comment.</p>
+        {{/if}}
+    </div>
+
 </section>
 
-<div class="create-cmt">
-    {{#if logged_in}}
-    <form id="create-cmt" data-postid="{{id}}">
-        <label for="new-comment">Comment</label>
-        <textarea id="new-comment"></textarea>
-        <button>Submit</button>
-    </form>
-    <script src="/js/create-cmt.js"></script>
-    {{else}}
-    <p>Please log in to leave a comment.</p>
-    {{/if}}
 </div>
-</div>
-<script src="/js/createComment.js"></script>
-{{/if}}
