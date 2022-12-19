@@ -1,1 +1,11 @@
-<h1>Homepage</h1>
+<div class="blog-posts">
+{{#each posts}}
+<article>
+    <div class="hd">
+        <h3>{{title}}</h3>
+        <span>Posted by {{User.username}} on {{date}}</span>
+    </div>
+    <p>{{content}}</p>
+</article>
+{{/each}}
+</div>

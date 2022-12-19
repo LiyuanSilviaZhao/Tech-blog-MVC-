@@ -18,3 +18,8 @@ header li{margin-left:10px;}
     border:2px solid rgb(4, 27, 19);
 }
 .box-container h2{background-color:var()}
+
+.blog-posts{padding:15px;}
+.blog-posts article{border:1px solid #ccc;border-radius:var(--border-radius-sm);margin-bottom:15px}
+.blog-posts .hd{background:#ccc;padding:8px 20px;display:flex;justify-content: space-between;border-radius: var(--border-radius-sm);border-bottom-left-radius: 0;border-bottom-right-radius: 0}
+.blog-posts p{padding:10px;}
