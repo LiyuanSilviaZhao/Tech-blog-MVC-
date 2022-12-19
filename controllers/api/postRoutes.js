@@ -53,4 +53,21 @@ router.put('/', (req, res) => {
 
 });
 
+router.delete('/:id', (req, res) => {
+    if(!req.session.logged_in){
+      return res.status(401).json({msg:"login first!"})
+    }
+    Post.destroy({
+        where: {
+          id: req.params.id,
+          UserId: req.session.user_id,
+        },
+    }).then(deldata=>{
+        res.status(200).json(deldata)
+    }).catch(err=>{
+        res.status(500).json({msg:"an error occurred",err})
+    })
+
+  });
+
 module.exports = router;

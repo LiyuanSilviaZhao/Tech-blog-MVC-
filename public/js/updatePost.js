@@ -21,3 +21,18 @@ createForm.addEventListener("submit", e=>{
         }
     })
 })
+
+const delBtn = document.querySelector("#delbtn");
+delBtn.addEventListener("click", e=>{
+    const postId = e.target.getAttribute("data-postid")
+        console.log(postId);
+        fetch(`/api/posts/${postId}`,{
+            method:"DELETE"
+        }).then(res=>{
+            if(res.ok){
+                location.replace('/dashboard')
+            } else {
+                alert("trumpet sound")
+            }
+        })
+})

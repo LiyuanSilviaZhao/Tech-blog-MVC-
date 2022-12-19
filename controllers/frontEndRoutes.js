@@ -18,6 +18,8 @@ router.get("/",(req,res)=>{
         postsHbsData.map(post=>post.date = moment(post.createdAt).format('MM/DD/YYYY'));
             res.render("home", {
             posts: postsHbsData,
+            logged_in: req.session.logged_in,
+            username: req.session.username
         })
 
     })
@@ -49,7 +51,10 @@ router.get("/create-post",(req,res)=>{
     if(!req.session.logged_in){
         return res.redirect("/login")
     }
-    res.render("createpost")
+    res.render("createpost",{
+        logged_in: req.session.logged_in,
+        username: req.session.username
+    })
 })
 
 router.get('/post/:id', async (req, res) => {
@@ -80,8 +85,8 @@ router.get('/post/:id', async (req, res) => {
         Post.findByPk(req.params.id)
         .then(postData=>{
             const hbsData = postData.toJSON();
-            console.log(hbsData)
-            hbsData.logged_in=req.session.logged_in
+            hbsData.logged_in=req.session.logged_in;
+            hbsData.username=req.session.username;
             res.render("createpost",hbsData)
         })
     
@@ -90,6 +95,7 @@ router.get('/post/:id', async (req, res) => {
       const postHbsData = postData.toJSON();
       postHbsData.date = moment(postHbsData.updatedAt).format('MM/DD/YYYY') ;
       postHbsData.logged_in=req.session.logged_in;
+      postHbsData.username=req.session.username;
       postHbsData.Comments.map(cmt=>cmt.date = moment(cmt.createdAt).format('MM/DD/YYYY'));
 
       res.render('post', postHbsData);
