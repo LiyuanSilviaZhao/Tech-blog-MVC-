@@ -72,6 +72,21 @@ router.get('/post/:id', async (req, res) => {
         ],
       });
 
+      router.get("/edit-post/:id",(req,res)=>{
+        if(!req.session.logged_in){
+            return res.redirect("/login")
+        }
+    
+        Post.findByPk(req.params.id)
+        .then(postData=>{
+            const hbsData = postData.toJSON();
+            console.log(hbsData)
+            hbsData.logged_in=req.session.logged_in
+            res.render("createpost",hbsData)
+        })
+    
+    })
+
       const postHbsData = postData.toJSON();
       postHbsData.date = moment(postHbsData.updatedAt).format('MM/DD/YYYY') ;
       postHbsData.logged_in=req.session.logged_in;

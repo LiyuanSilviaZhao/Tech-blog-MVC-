@@ -1,16 +1,29 @@
 <div class="box-container">
+{{#if id}}
+<h2>Edit Post</h2>
+{{else}}
 <h2>Create New Post</h2>
-<form id="create-post">
+{{/if}}
+<form id="create-post" data-postid="{{id}}">
     <section>
-        <label for="">Title</label>
-        <input type="text" id="new-title" />
+        <label for="post-title">Title</label>
+        <input type="text" id="post-title" value="{{title}}"/>
     </section>
     <section>
-        <label for="">Content</label>
-        <textarea id="new-content"></textarea>
+        <label for="post-content">Content</label>
+        <textarea id="post-content">{{content}}</textarea>
     </section>
-    <button type="submit">Create</button>
+
+
+{{#if id}}
+<button type="submit">Update</button>
+<a href="">Delete</a>
+{{else}}
+<button type="submit">Create</button>
+{{/if}}
+
     </div>
 </form>
 
-<script src="/js/createPost.js"></script>
+
+<script src="/js/{{#if id}}update{{else}}createPost{{/if}}.js"></script>
