@@ -1,0 +1,30 @@
+<div class="blog-posts postdetail">
+<article>
+    <div class="hd">
+        <h3>{{title}}</h3>
+        <span>Posted by {{User.username}} on {{date}}</span>
+    </div>
+        <p>{{content}}</p>
+</article>
+
+<section class="view-cmts">
+    <h4>Comments:</h4>
+    {{#each Comments}}
+    <div>
+        <p>{{content}}</p>
+        <span>-- {{User.username}} , {{date}}</span>
+    </div>
+    {{/each}}
+</section>
+
+{{#if logged_in}}
+<div class="create-cmt">
+    <form id="create-cmt" data-postid="{{id}}">
+        <label for="new-comment">Comment</label>
+        <textarea id="new-comment"></textarea>
+        <button>Submit</button>
+    </form>
+</div>
+</div>
+<script src="/js/create-cmt.js"></script>
+{{/if}}

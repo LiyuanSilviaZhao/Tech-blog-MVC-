@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const {User,Post,Comment} = require('../models');
-const moment = require('moment-timezone');
+const moment = require('moment');
 
 router.get("/",(req,res)=>{
 
@@ -15,8 +15,8 @@ router.get("/",(req,res)=>{
 
     }).then(allpost=>{
         const postsHbsData = allpost.map(post=>post.get({plain:true}))
-        const postsdata = postsHbsData.map(post=>post.date = moment(post.createdAt).format('MM/DD/YYYY'));
-        res.render("home", {
+        postsHbsData.map(post=>post.date = moment(post.createdAt).format('MM/DD/YYYY'));
+            res.render("home", {
             posts: postsHbsData,
         })
 
@@ -40,8 +40,7 @@ router.get("/dashboard",(req,res)=>{
         include:[Post]
     }).then(userData=>{
         const hbsData = userData.toJSON();
-        console.log(hbsData)
-        hbsData.logged_in=req.session.logged_in
+        hbsData.logged_in=req.session.logged_in;
         res.render("dashboard",hbsData)
     })
 })
@@ -52,5 +51,38 @@ router.get("/create-post",(req,res)=>{
     }
     res.render("createpost")
 })
+
+router.get('/post/:id', async (req, res) => {
+    try {
+      const postData = await Post.findByPk(req.params.id, {
+        include: [
+          {
+            model: User,
+            attributes: ['username'],
+          },
+          {
+            model: Comment,
+            include: [
+                {
+                    model:User,
+                    attributes: ['username'],
+                }
+            ]
+          },
+        ],
+      });
+
+      const postHbsData = postData.toJSON();
+      postHbsData.date = moment(postHbsData.updatedAt).format('MM/DD/YYYY') ;
+      postHbsData.logged_in=req.session.logged_in;
+      postHbsData.Comments.map(cmt=>cmt.date = moment(cmt.createdAt).format('MM/DD/YYYY'));
+
+      res.render('post', postHbsData);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  });
+
 
 module.exports = router;
