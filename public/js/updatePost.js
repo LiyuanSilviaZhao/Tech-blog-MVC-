@@ -17,7 +17,7 @@ createForm.addEventListener("submit", e=>{
         if(res.ok) {
             location.replace('/dashboard')
         } else {
-            alert('post update fail')
+            alert('update fail')
         }
     })
 })
@@ -32,7 +32,7 @@ delBtn.addEventListener("click", e=>{
             if(res.ok){
                 location.replace('/dashboard')
             } else {
-                alert("trumpet sound")
+                alert("uhh")
             }
         })
 })

@@ -1,17 +1,20 @@
-<div class="box-container">
+<div class="login-box box-container">
 <h2>Login</h2>
 <form action="" id="login">
     <section>
         <label for="loginUsername">Username</label>
-        <input type="text" name="loginUsername" id="loginUsername">
+        <input type="text" name="loginUsername" id="loginUsername" required>
     </section>
     <section>
-    <label for="loginPassword">Password</label>
-    <input type="password" name="loginPassword" id="loginPassword" >
+        <label for="loginPassword">Password</label>
+        <input type="password" name="loginPassword" id="loginPassword"  required>
     </section>
-    <button>Login!</button>
+    <div class="buttons">
+        <button>Login!</button> 
+    </div>
+    <a href="/signup">Sign up instead</a>
 </form>
-<a href="/signup">Sign up</a>
+
 </div>
 
 <script src="/js/login.js"></script>
