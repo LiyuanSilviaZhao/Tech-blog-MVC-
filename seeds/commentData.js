@@ -3,7 +3,7 @@ const { Comment } = require('../models');
 const commentData = [{
       "content": "I like it!!!",
       "user_id":"1",
-      "postid":"1"
+      "post_id":"1"
 
     }
   ];

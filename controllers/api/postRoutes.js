@@ -2,7 +2,15 @@ const express = require('express');
 const router = express.Router();
 const {User,Post,Comment} = require('../../models');
 
-
+router.get("/",(req,res)=>{
+    Post.findAll({
+        include:[User]
+    }).then(postData=>{
+        res.json(postData)
+    }).catch(err=>{
+        res.status(500).json({msg:"an error occurred",err})
+    })
+})
 
 router.post("/",(req,res)=>{
     if(!req.session.user_id){
@@ -44,7 +52,6 @@ router.put('/', (req, res) => {
 
 
 });
-  
 
 router.delete('/:id', (req, res) => {
     if(!req.session.logged_in){
@@ -60,8 +67,7 @@ router.delete('/:id', (req, res) => {
     }).catch(err=>{
         res.status(500).json({msg:"an error occurred",err})
     })
-  
+
   });
-  
 
 module.exports = router;

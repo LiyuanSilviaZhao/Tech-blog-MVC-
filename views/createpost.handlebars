@@ -1,4 +1,4 @@
-<div class="box-container">
+<div class="create-box box-container">
 {{#if id}}
 <h2>Edit Post</h2>
 {{else}}
@@ -14,15 +14,15 @@
         <textarea id="post-content">{{content}}</textarea>
     </section>
 
-
-{{#if id}}
-<button type="submit">Update</button>
-<a id="delbtn" href="#" data-postid="{{id}}" >Delete</a>
-<button type="submit">Create</button>
-{{/if}}
-
+    <div class="buttons">   
+    {{#if id}}
+    <button type="submit">Update</button>
+    <a id="delbtn" href="#" data-postid="{{id}}" >Delete</a>
+    {{else}}
+    <button type="submit">Create</button>
+    {{/if}}
     </div>
-</form>
-
+</form>   
+</div>
 
 <script src="/js/{{#if id}}update{{else}}createPost{{/if}}.js"></script>
