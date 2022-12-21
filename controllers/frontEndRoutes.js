@@ -1,68 +1,62 @@
-//need to check -silvia 
-
 const express = require('express');
 const router = express.Router();
-const {User,Post,Comment} = require('../models');
+const { User, Post, Comment } = require('../models');
 const moment = require('moment');
 
-router.get("/",(req,res)=>{
-
+router.get("/", (req, res) => {
     Post.findAll({
-        include:[{
-            model:User,
-            attributes:['username'],
+        include: [{
+            model: User,
+            attributes: ['username'],
         }
-    ,{
-        model:Comment,
-        attributes:['id'],
-    }],
-    order: [
-      ['createdAt', 'DESC'],
-    ],
-
-    }).then(allpost=>{
-        const postsHbsData = allpost.map(post=>post.get({plain:true}))
-        postsHbsData.map(post=>post.date = moment(post.createdAt).format('MM/DD/YYYY'));
-            res.render("home", {
+            , {
+            model: Comment,
+            attributes: ['id'],
+        }],
+        order: [
+            ['createdAt', 'DESC'],
+        ],
+    }).then(allpost => {
+        const postsHbsData = allpost.map(post => post.get({ plain: true }))
+        postsHbsData.map(post => post.date = moment(post.createdAt).format('MM/DD/YYYY'));
+        res.render("home", {
             posts: postsHbsData,
             logged_in: req.session.logged_in,
             username: req.session.username
         })
-
     })
 })
 
-router.get("/login",(req,res)=>{
+router.get("/login", (req, res) => {
     res.render("login")
 })
 
-router.get("/signup",(req,res)=>{
+router.get("/signup", (req, res) => {
     res.render("signup")
 })
 
-router.get("/sessions",(req,res)=>{
+router.get("/sessions", (req, res) => {
     res.json(req.session)
 })
 
-router.get("/dashboard",(req,res)=>{
-    if(!req.session.logged_in){
+router.get("/dashboard", (req, res) => {
+    if (!req.session.logged_in) {
         return res.redirect("/login")
     }
-
-    User.findByPk(req.session.user_id,{
-        include:[Post]
-    }).then(userData=>{
+    User.findByPk(req.session.user_id, {
+        include: [Post]
+    }).then(userData => {
         const hbsData = userData.toJSON();
-        hbsData.logged_in=req.session.logged_in;
-        res.render("dashboard",hbsData)
+        hbsData.logged_in = req.session.logged_in;
+        res.render("dashboard", hbsData)
     })
 })
 
-router.get("/create-post",(req,res)=>{
-    if(!req.session.logged_in){
+router.get("/create-post", (req, res) => {
+    if (!req.session.logged_in) {
         return res.redirect("/login")
     }
-    res.render("createpost",{
+    res.render("createpost", {
         logged_in: req.session.logged_in,
         username: req.session.username
     })
@@ -70,52 +64,49 @@ router.get("/create-post",(req,res)=>{
 
 router.get('/post/:id', async (req, res) => {
     try {
-      const postData = await Post.findByPk(req.params.id, {
-        include: [
-          {
-            model: User,
-            attributes: ['username'],
-          },
-          {
-            model: Comment,
+        const postData = await Post.findByPk(req.params.id, {
             include: [
                 {
-                    model:User,
+                    model: User,
                     attributes: ['username'],
-                }
-            ]
-          },
-        ],
-      });
+                },
+                {
+                    model: Comment,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['username'],
+                        }
+                    ]
+                },
+            ],
+        });
 
-      router.get("/edit-post/:id",(req,res)=>{
-        if(!req.session.logged_in){
-            return res.redirect("/login")
-        }
-    
-        Post.findByPk(req.params.id)
-        .then(postData=>{
-            const hbsData = postData.toJSON();
-            hbsData.logged_in=req.session.logged_in;
-            hbsData.username=req.session.username;
-            res.render("createpost",hbsData)
+        router.get("/edit-post/:id", (req, res) => {
+            if (!req.session.logged_in) {
+                return res.redirect("/login")
+            }
+            Post.findByPk(req.params.id)
+                .then(postData => {
+                    const hbsData = postData.toJSON();
+                    hbsData.logged_in = req.session.logged_in;
+                    hbsData.username = req.session.username;
+                    res.render("createpost", hbsData)
+                })
         })
-    
-    })
 
-      const postHbsData = postData.toJSON();
-      postHbsData.date = moment(postHbsData.updatedAt).format('MM/DD/YYYY') ;
-      postHbsData.logged_in=req.session.logged_in;
-      postHbsData.username=req.session.username;
-      postHbsData.Comments.map(cmt=>cmt.date = moment(cmt.createdAt).format('MM/DD/YYYY'));
-      postHbsData.Comments.map(cmt=>cmt.myComment = ( cmt.UserId == req.session.user_id ? true : false));
+        const postHbsData = postData.toJSON();
+        postHbsData.date = moment(postHbsData.updatedAt).format('MM/DD/YYYY');
+        postHbsData.logged_in = req.session.logged_in;
+        postHbsData.username = req.session.username;
+        postHbsData.Comments.map(cmt => cmt.date = moment(cmt.createdAt).format('MM/DD/YYYY'));
+        postHbsData.Comments.map(cmt => cmt.myComment = (cmt.UserId == req.session.user_id ? true : false));
 
-      res.render('post', postHbsData);
+        res.render('post', postHbsData);
     } catch (err) {
-      console.log(err);
-      res.status(500).json(err);
+        console.log(err);
+        res.status(500).json(err);
     }
-  });
-
+});
 
 module.exports = router;

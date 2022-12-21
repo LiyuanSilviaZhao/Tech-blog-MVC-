@@ -1,21 +1,21 @@
 const signupForm = document.querySelector("#signup");
-signupForm.addEventListener("submit",e=>{
+signupForm.addEventListener("submit", e => {
     e.preventDefault();
     const userObj = {
-        username:document.querySelector("#signupUsername").value,
-        password:document.querySelector("#signupPassword").value,
+        username: document.querySelector("#signupUsername").value,
+        password: document.querySelector("#signupPassword").value,
     }
-    fetch("/api/users/",{
-        method:"POST",
-        body:JSON.stringify(userObj),
-        headers:{
-            "Content-Type":"application/json"
+    fetch("/api/users/", {
+        method: "POST",
+        body: JSON.stringify(userObj),
+        headers: {
+            "Content-Type": "application/json"
         }
-    }).then(res=>{
-        if(res.ok){
-           location.reload()
+    }).then(res => {
+        if (res.ok) {
+            location.reload()
         } else {
-            alert("User signup error")
+            alert("signup error")
         }
     })
 })

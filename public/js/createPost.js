@@ -1,22 +1,21 @@
 const createForm = document.querySelector("#create-post");
-createForm.addEventListener("submit", e=>{
+createForm.addEventListener("submit", e => {
     e.preventDefault();
     const postObj = {
-        title:document.querySelector("#post-title").value,
-        content:document.querySelector("#post-content").value
+        title: document.querySelector("#post-title").value,
+        content: document.querySelector("#post-content").value
     }
-    console.log(postObj)
     fetch("/api/posts", {
-        method:"POST",
-        body:JSON.stringify(postObj),
-        headers:{
-            "Content-Type":"application/json"
+        method: "POST",
+        body: JSON.stringify(postObj),
+        headers: {
+            "Content-Type": "application/json"
         }
-    }).then(res=>{
-        if(res.ok) {
+    }).then(res => {
+        if (res.ok) {
             location.replace('/dashboard')
         } else {
-            alert('post creat fail')
+            alert('post create failed')
         }
     })
 })

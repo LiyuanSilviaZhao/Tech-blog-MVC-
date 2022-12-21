@@ -1,58 +1,58 @@
 const express = require('express');
 const router = express.Router();
-const {User,Post,Comment} = require('../../models');
+const { User, Post, Comment } = require('../../models');
 
-router.post("/",(req,res)=>{
-    if(!req.session.user_id){
-        return res.status(403).json({msg:"login first!"})
+router.post("/", (req, res) => {
+    if (!req.session.user_id) {
+        return res.status(403).json({ msg: "Please login" })
     }
     Comment.create({
-        content:req.body.comment,
-        PostId:req.body.postid,
-        UserId:req.session.user_id
-    }).then(commentData=>{
+        content: req.body.comment,
+        PostId: req.body.postid,
+        UserId: req.session.user_id
+    }).then(commentData => {
         res.json(commentData)
-    }).catch(err=>{
-        res.status(500).json({msg:"an error occurred",err})
+    }).catch(err => {
+        res.status(500).json({ msg: "an error occurred", err })
     })
 })
 
 router.delete('/:id', (req, res) => {
-    if(!req.session.logged_in){
-      return res.status(401).json({msg:"login first!"})
+    if (!req.session.logged_in) {
+        return res.status(401).json({ msg: "Please login" })
     }
     Comment.destroy({
         where: {
-          id: req.params.id,
-          UserId: req.session.user_id,
+            id: req.params.id,
+            UserId: req.session.user_id,
         },
-    }).then(deldata=>{
+    }).then(deldata => {
         res.status(200).json(deldata)
-    }).catch(err=>{
-        res.status(500).json({msg:"an error occurred",err})
+    }).catch(err => {
+        res.status(500).json({ msg: "an error occurred", err })
     })
 
-  });
+});
 
-  router.put('/:id', (req, res) => {
-    if(!req.session.logged_in){
-      return res.status(401).json({msg:"login first!"})
+router.put('/:id', (req, res) => {
+    if (!req.session.logged_in) {
+        return res.status(401).json({ msg: "Please login" })
     }
     Comment.update(
         {
-            content:req.body.comment,
+            content: req.body.comment,
         },
         {
             where: {
-            id: req.params.id,
-            UserId: req.session.user_id,
+                id: req.params.id,
+                UserId: req.session.user_id,
             }
         })
-    .then(updateddata=>{
-        res.status(200).json(updateddata)
-    }).catch(err=>{
-        res.status(500).json({msg:"an error occurred",err})
-    })
+        .then(updateddata => {
+            res.status(200).json(updateddata)
+        }).catch(err => {
+            res.status(500).json({ msg: "an error occurred", err })
+        })
 
 });
 module.exports = router;

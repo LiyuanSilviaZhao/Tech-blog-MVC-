@@ -1,12 +1,9 @@
 <h2>Dashboard</h2>
-
 <ul>
     {{#each Posts}}
     <li><a href="/edit-post/{{id}}">{{title}} </a></li>
     {{/each}}
 </ul>
-
-
-<a href="/create-post" id="newPostBtn"> Add New Post</a>
+<a href="/create-post" id="newPostBtn"> Create New Post</a>
 
 <script src="/js/dashboard.js"></script>

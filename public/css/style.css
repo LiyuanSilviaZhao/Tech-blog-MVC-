@@ -242,24 +242,5 @@ form input,form textarea{
     padding:40px 0;
     text-align: center;
 }
-
-/* @media screen and (max-width: 768px) {
-    main{padding:25px 15px 30px;}
-    .blog-posts .hd{flex-direction: column;}
-    .blog-posts .hd span{text-align: right;margin-top:5px;}
-    header nav{flex-direction: column;}
-    header nav  p{text-align:right;padding-right:15px;}
-    .create-cmt form{flex-wrap: wrap;}
-    .create-cmt label{width:100%;}
-    .create-cmt input{width:100%;}
-    .create-cmt button{width:200%;margin:0;}   
-
-    .login-box{width:100%;}
-
-    .view-cmts .cmt form{flex-direction: column;}
-    .view-cmts .cmt form input{width:100%;}
-    .view-cmts .cmt form button{width:100%;}
-    .blog-posts article{margin-bottom:15px;}
-} */
   
   
